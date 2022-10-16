@@ -1,0 +1,45 @@
+version: "1.0"
+
+services:
+  app:
+    build: 
+      context: .
+      target: app_stage
+    container_name: app-container
+    hostname: app_service
+    environment:
+      - NODE_ENV=development
+      - PORT=3000
+    volumes:
+      - ./app:/usr/src/app
+    ports:
+      - 3000:3000
+    working_dir: /usr/src/app
+    command: sh -c "npm install && npm start"
+    tty: true
+
+  db:
+    build: 
+      context: .
+      target: db_stage
+    container_name: db-container
+    hostname: mysql-server
+    platform: linux/x86_64
+    command: mysqld --character-set-server=utf8 --collation-server=utf8_unicode_ci
+    volumes:
+      - db-data:/var/lib/mysql
+      - ./db:/usr/src/db
+    environment:
+      MYSQL_ROOT_PASSWORD: mysqlroot
+      MYSQL_DATABASE: mysqldb
+      MYSQL_USER: mysqluser
+      MYSQL_PASSWORD: mysqlpassword
+      TZ: 'Asia/Tokyo'
+    ports:
+      - 3306:3306
+    tty: true
+
+volumes:
+  db-data:
+    name: mysql-data
+
