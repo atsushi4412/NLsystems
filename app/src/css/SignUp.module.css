@@ -1,0 +1,23 @@
+.login_main {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+}
+
+
+.form {
+    border: solid 3px white;
+    border-radius: 10px;
+    padding: 2em 2em;
+    width: 200px;
+    height: auto;
+    box-shadow: rgb(145 158 171 / 24%) -24px 24px 72px -8px;
+}
+.form_carefull {
+    font-size: 12px;
+}
+
+.form_login {
+    font-size: 12px;
+}

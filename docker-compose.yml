@@ -17,6 +17,25 @@ services:
     working_dir: /usr/src/app
     command: sh -c "npm install && npm start"
     tty: true
+  
+  backend:
+    build:
+      context: .
+      target: backend_stage
+    container_name: backend-container
+    hostname: backend_service
+    environment:
+      - NODE_ENV=development
+      - PORT=3100
+      - EMAIL=test@gmail.com
+      - PASSWORD=password
+    volumes:
+      - ./backend:/usr/src/backend
+    ports:
+      - 3100:3100
+    working_dir: /usr/src/backend
+    command: sh -c "npm install && npm start"
+    tty: true
 
   db:
     build: 
@@ -29,12 +48,14 @@ services:
     volumes:
       - db-data:/var/lib/mysql
       - ./db:/usr/src/db
+      - ./db-init:/docker-entrypoint-initdb.d
     environment:
       MYSQL_ROOT_PASSWORD: mysqlroot
       MYSQL_DATABASE: mysqldb
       MYSQL_USER: mysqluser
       MYSQL_PASSWORD: mysqlpassword
       TZ: 'Asia/Tokyo'
+      LANG: C.UTF-8
     ports:
       - 3306:3306
     tty: true
